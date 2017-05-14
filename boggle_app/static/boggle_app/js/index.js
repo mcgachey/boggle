@@ -23,8 +23,6 @@ function randomize() {
     })
 }
 
-// Array gathering solution modified from
-//    http://stackoverflow.com/questions/4856283/jquery-collect-value-of-list-items-and-place-in-array
 function solve() {
     var letters = []
     for (row=0; row<4; row++) {
