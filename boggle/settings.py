@@ -25,7 +25,7 @@ SECRET_KEY = 'had-o_5ncwcds7$s3k*6ijf3@!@9^x1d)w4u#n3gfzu2s_fzhp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shielded-plains-54627.herokuapp.com']
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
