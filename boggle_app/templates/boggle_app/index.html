@@ -1,0 +1,45 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link href='{% static "boggle_app/css/index.css" %}' rel="stylesheet" type="text/css">
+    <script src='{% static "boggle_app/js/index.js" %}'></script>
+
+    <title>Boggle</title>
+</head>
+<body>
+<table id="board_table" data-solve_url="{% url 'boggle_solve' %}">
+    {% for row in board_width %}
+        <tr>
+            {% for col in board_width %}
+                <td>
+                    <button
+                            class="btn btn-default board_cell"
+                            id="board_cell_{{ row }}_{{ col }}"
+                            onclick="updateCell('#board_cell_{{ row }}_{{ col }}');"
+                    >-</button>
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+<div id="buttons">
+    <button class="btn btn-default" onclick="randomize();">Randomize</button>
+    <button class="btn btn-default" onclick="solve();">Solve</button>
+</div>
+
+<div id="results"></div>
+</body>
+</html>

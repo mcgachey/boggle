@@ -122,3 +122,7 @@ local.properties
 .pydevproject
 
 scratch.py
+
+venv
+staticfiles
+.env

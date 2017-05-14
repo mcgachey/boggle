@@ -50,6 +50,7 @@ class FourByFourNeighborTest(FourByFourBoardTest):
         for node_id, val in self.board.get_nodes():
             if val == node_val:
                 neighbor_vals = [
+
                     v for _, v in self.board.get_neighbors(node_id)
                 ]
                 self.assertEqual(len(neighbor_vals), len(expected_neighbors))

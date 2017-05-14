@@ -1,0 +1,1 @@
+web: gunicorn boggle.wsgi --log-file -
