@@ -6,6 +6,7 @@ import string
 import unittest
 
 from boggle_solver import BoggleBoard
+from word_list import WordList
 
 
 class FourByFourBoardTest(unittest.TestCase):
@@ -72,3 +73,45 @@ class FourByFourNeighborTest(FourByFourBoardTest):
 #   Passing invalid node IDs
 #   Board sizes other than 4x4
 
+
+@ddt
+class WordListTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.word_list = WordList('boggle_app/word_lists/en.txt')
+
+    @data(
+        'still', 'crazy', 'after', 'all', 'these', 'years'
+    )
+    def test_expected_word(self, word):
+        self.assertTrue(
+            WordListTest.word_list.contains_word(word),
+            "Expected word '{}' missing from list".format(word)
+        )
+
+    @data(
+        'foob', 'grug', 'pubbawup', 'wattoom', 'gazork', 'spuzz'
+    )
+    def test_missing_word(self, word):
+        self.assertFalse(
+            WordListTest.word_list.contains_word(word),
+            "Unexpected word '{}' found in list".format(word)
+        )
+
+    @data(
+        'a', 'thi', 'yes', 'no', 'ecumenic'
+    )
+    def test_expected_prefix(self, prefix):
+        self.assertTrue(
+            WordListTest.word_list.contains_prefix(prefix),
+            "Expected prefix '{}' missing from list".format(prefix)
+        )
+
+    @data(
+        'kzn', 'eee', 'crazycat'
+    )
+    def test_missing_prefix(self, prefix):
+        self.assertFalse(
+            WordListTest.word_list.contains_prefix(prefix),
+            "Unexpected prefix '{}' found in list".format(prefix)
+        )
