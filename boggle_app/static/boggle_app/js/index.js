@@ -26,11 +26,12 @@ function randomize() {
 // Array gathering solution modified from
 //    http://stackoverflow.com/questions/4856283/jquery-collect-value-of-list-items-and-place-in-array
 function solve() {
-    var letters = $(".board_cell").sort(function (a, b) {
-        return a.id > b.id;
-    }).map(function () {
-        return $(this).text();
-    }).get();
+    var letters = []
+    for (row=0; row<4; row++) {
+        for (col=0; col<4; col++) {
+            letters.push($("#board_cell_" + row + "_" + col).text())
+        }
+    }
     $.ajax({
         type: "POST",
         url: $("#board_table").data('solve_url'),
