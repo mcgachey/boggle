@@ -40,3 +40,5 @@ class WordList(object):
         """
         # TODO: Raise errors if prefix is None, isn't ASCII or lowercase, etc
         return len(self.trie.keys(prefix)) > 1
+
+en_us = WordList('boggle_app/word_lists/en.txt')

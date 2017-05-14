@@ -55,7 +55,8 @@ class BoggleBoard(object):
         """
         BoggleBoard._check_input(board_width, values)
         self.board_width = board_width
-        self.board = BoggleBoard._to_internal_representation(board_width, values)
+        self.board = BoggleBoard._to_internal_representation(board_width,
+                                                             values)
 
     def get_nodes(self):
         """
@@ -99,17 +100,17 @@ class BoggleBoard(object):
         offset_north = node_id - self.board_width - 2
         offset_south = node_id + self.board_width + 2
         for neighbor_idx in [
-            offset_north - 1,
+                    offset_north - 1,
             offset_north,
-            offset_north + 1,
-            node_id - 1,
-            node_id + 1,
-            offset_south - 1,
+                    offset_north + 1,
+                    node_id - 1,
+                    node_id + 1,
+                    offset_south - 1,
             offset_south,
-            offset_south + 1
+                    offset_south + 1
         ]:
             value = self.board[neighbor_idx]
-            if value and value not in exclude:
+            if value and neighbor_idx not in exclude:
                 neighbors.append((neighbor_idx, value))
         return neighbors
 
@@ -154,3 +155,34 @@ class BoggleBoard(object):
                 raise ValueError(u"Expected single character, saw {}.".format(
                     value
                 ))
+
+
+class BoggleSolver(object):
+    def __init__(self, board, word_list):
+        self.board = board
+        self.word_list = word_list
+        self.matches = set()
+
+    def find_words(self):
+        """
+        Find all words within the Boggle board.
+        :return: a list of Strings containing all matching words.
+        """
+        for node_id, node_val in self.board.get_nodes():
+            self._find_suffix_words(node_id, node_val, '', set())
+        result_list = list(self.matches)
+        result_list.sort(key=lambda s: len(s), reverse=True)
+        return result_list
+
+    def _find_suffix_words(self, node_id, node_val, prefix, exclude):
+        word_at_node = "{}{}".format(prefix, node_val)
+        if self.word_list.contains_word(word_at_node):
+            self.matches.add(word_at_node)
+        if self.word_list.contains_prefix(word_at_node):
+            neighbor_exclude = exclude.union({node_id})
+            for neighbor_id, neighbor_val in self.board.get_neighbors(
+                    node_id, neighbor_exclude
+            ):
+                self._find_suffix_words(
+                    neighbor_id, neighbor_val, word_at_node, neighbor_exclude
+                )

@@ -65,9 +65,39 @@ class FourByFourNeighborTest(FourByFourBoardTest):
                         "Saw unexpected value {} in neighbor set".format(seen)
                     )
 
+
+@ddt
+class FourByFourExcludeTest(FourByFourBoardTest):
+    # Data provider for data-driven tests. Each line contains a node and a list
+    # of expected neighbors (using the standard board defined in the parent
+    # class).
+    @data(
+        ('f', ['a', ]),
+        ('f', ['a', 'b', 'c', 'e', 'g', 'i', 'j', 'k']),
+        ('a', ['b', 'f']),
+        ('b', ['a', 'f', 'g']),
+        ('d', []),
+        ('i', ['e', 'n', 'm']),
+        ('p', ['k', 'l', 'o']),
+    )
+    def test_excluded_neighbors(self, (node_val, excluded)):
+        id_map = {v: i for i, v in self.board.get_nodes()}
+        exclude = set([id_map[v] for v in excluded])
+        neighbor_ids = [
+            n_id for n_id, _ in self.board.get_neighbors(
+                id_map[node_val], exclude
+            )]
+        for excluded_id in exclude:
+            self.assertTrue(
+            excluded_id not in neighbor_ids,
+                "Excluded neighbor node {} present in neighbor set".format(
+                    excluded_id
+                )
+            )
+
+
 # To test:
 #   Invalid constructor arguments
-#   Excluded values aren't returned as neighbors
 #   Exclude sets containing nodes that wouldn't be expected in the neighbor set
 #   All characters converted to lower case
 #   Boards with duplicate characters

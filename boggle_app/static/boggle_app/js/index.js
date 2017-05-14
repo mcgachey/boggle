@@ -34,7 +34,7 @@ function solve() {
     $.ajax({
         type: "POST",
         url: $("#board_table").data('solve_url'),
-        data: letters,
+        data: JSON.stringify(letters),
         dataType: "json"
     }).done(function (words) {
         console.log("Words: " + words);
